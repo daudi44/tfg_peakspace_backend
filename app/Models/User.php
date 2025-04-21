@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'balance'
     ];
 
     /**
@@ -44,5 +45,35 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
+    }
+
+    public function timeEntries()
+    {
+        return $this->hasMany(TimeEntry::class);
+    }
+
+    public function movements()
+    {
+        return $this->hasMany(Movement::class);
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    public function getBalanceAttribute($value)
+    {
+        return number_format($value, 2, '.', '');
     }
 }
