@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('time_entries', function (Blueprint $table) {
             $table->id();
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
+            $table->string('registrable_type');
+            $table->unsignedBigInteger('registrable_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
