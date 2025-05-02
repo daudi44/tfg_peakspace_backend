@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Enums\CategoryType;
 use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
@@ -49,6 +50,25 @@ class CategoriesController extends Controller
 
         return response()->json(['message' => 'Category deleted successfully'], 200);
     }
+
     // get economy categories
+    public function getEconomyCategories(Request $request)
+    {
+        $categories = Category::where('user_id', auth()->id())
+            ->where('type', CategoryType::ECONOMY)
+            ->with(['parent', 'children'])
+            ->get();
+
+        return response()->json(['categories' => $categories], 200);
+    }
     // get productive categories
+    public function getProductivityCategories(Request $request)
+    {
+        $categories = Category::where('user_id', auth()->id())
+            ->where('type', CategoryType::PRODUCTIVITY)
+            ->with(['parent', 'children'])
+            ->get();
+
+        return response()->json(['categories' => $categories], 200);
+    }
 }

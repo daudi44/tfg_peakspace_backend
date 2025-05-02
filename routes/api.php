@@ -17,4 +17,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/add-category', [CategoriesController::class, 'addCategory']);
     Route::post('/delete-category', [CategoriesController::class, 'deleteCategory']);
+    Route::get('/economy-categories', [CategoriesController::class, 'getEconomyCategories']);
+    Route::get('/productivity-categories', [CategoriesController::class, 'getProductivityCategories']);
 });
