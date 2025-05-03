@@ -24,5 +24,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/add-task', [TasksController::class, 'addTask']);
     Route::post('/delete-task', [TasksController::class, 'deleteTask']);
     Route::get('/all-tasks', [TasksController::class, 'getAllTasks']);
-    Route::get('/tasks', [TasksController::class, 'getTasksByStatus']);
+    Route::post('/tasks', [TasksController::class, 'getTasksByStatus']);
 });
