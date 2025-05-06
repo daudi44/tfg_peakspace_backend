@@ -36,7 +36,6 @@ class TasksController extends Controller
         ], 201);
     }
     // edit task
-    // delete task
     public function deleteTask(Request $request)
     {
         $request->validate([
@@ -60,14 +59,32 @@ class TasksController extends Controller
         $tasks = Task::where('user_id', $request->user()->id)->get();
         return response()->json($tasks);
     }
-    // get active tasks
     public function getTasksByStatus(Request $request)
     {
         $tasks = Task::where('user_id', $request->user()->id)
             ->where('status', $request->status)
+            ->with('category', 'subtasks')
             ->get();
         return response()->json($tasks);
     }
-    // get completed tasks
-    // get tasks by status
+    public function updateTaskStatus(Request $request)
+    {
+        $request->validate([
+            'task_id' => 'required|exists:tasks,id',
+            'status' => 'required|in:' . implode(',', TaskStatus::getValues()),
+        ]);
+
+        $task = Task::find($request->task_id);
+        if ($task) {
+            $task->status = $request->status;
+            $task->save();
+            return response()->json([
+                'message' => 'Task status updated successfully',
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Task not found',
+        ], 404);
+    }
 }

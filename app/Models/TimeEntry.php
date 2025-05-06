@@ -13,6 +13,8 @@ class TimeEntry extends Model
         'registrable_id',
     ];
 
+    protected $appends = ['seconds_elapsed'];
+
     protected $casts = [
         'start_time' => 'datetime',
         'end_time' => 'datetime',
@@ -27,4 +29,13 @@ class TimeEntry extends Model
     {
         return $this->morphTo();
     }
+
+    public function getSecondsElapsedAttribute()
+{
+    if ($this->end_time) {
+        return $this->start_time->diffInSeconds($this->end_time);
+    }
+
+    return $this->start_time->diffInSeconds(now());
+}
 }

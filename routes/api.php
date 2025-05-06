@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\TasksController;
+use App\Http\Controllers\TimeEntriesController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -25,4 +26,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/delete-task', [TasksController::class, 'deleteTask']);
     Route::get('/all-tasks', [TasksController::class, 'getAllTasks']);
     Route::post('/tasks', [TasksController::class, 'getTasksByStatus']);
+    Route::post('/update-task-status', [TasksController::class, 'updateTaskStatus']);
+
+    Route::post('/start-time-entry', [TimeEntriesController::class, 'startTimeEntry']);
+    Route::post('/stop-time-entry', [TimeEntriesController::class, 'stopTimeEntry']);
+    Route::get('/time-entries', [TimeEntriesController::class, 'getTimeEntries']);
+    Route::get('/last-time-entry', [TimeEntriesController::class, 'getLastTimeEntry']);
 });

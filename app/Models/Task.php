@@ -14,6 +14,8 @@ class Task extends Model
         'due_date',
     ];
 
+    protected $appends = ['total_time'];
+
     protected $casts = [
         'start_date' => 'datetime',
         'due_date' => 'datetime',
@@ -31,6 +33,23 @@ class Task extends Model
 
     public function timeEntries()
     {
-        return $this->hasMany(TimeEntry::class);
+        return $this->morphMany(TimeEntry::class, 'registrable');
+    }
+
+    public function parentTask()
+    {
+        return $this->belongsTo(Task::class, 'parent_task_id');
+    }
+
+    public function subTasks()
+    {
+        return $this->hasMany(Task::class, 'parent_task_id');
+    }
+
+    public function getTotalTimeAttribute()
+    {
+        return $this->timeEntries->sum(function ($entry) {
+            return $entry->seconds_elapsed;
+        });
     }
 }

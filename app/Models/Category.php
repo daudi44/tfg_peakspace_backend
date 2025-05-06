@@ -45,6 +45,6 @@ class Category extends Model
 
     public function timeEntries()
     {
-        return $this->hasMany(TimeEntry::class);
+        return $this->morphMany(TimeEntry::class, 'registrable');
     }
 }
