@@ -73,7 +73,7 @@ class TimeEntriesController extends Controller
     public function getTimeEntries(Request $request)
     {
         $user = $request->user();
-        $timeEntries = $user->timeEntries()->with('registrable')->orderBy('created_at', 'desc')->get();
+        $timeEntries = $user->timeEntries()->with('registrable')->orderBy('created_at', 'desc')->limit(50)->get();
 
         return response()->json($timeEntries);
     }
