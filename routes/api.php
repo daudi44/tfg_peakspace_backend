@@ -32,4 +32,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/stop-time-entry', [TimeEntriesController::class, 'stopTimeEntry']);
     Route::get('/time-entries', [TimeEntriesController::class, 'getTimeEntries']);
     Route::get('/last-time-entry', [TimeEntriesController::class, 'getLastTimeEntry']);
+    Route::post('/total-time', [TimeEntriesController::class, 'getTotalTime']);
 });

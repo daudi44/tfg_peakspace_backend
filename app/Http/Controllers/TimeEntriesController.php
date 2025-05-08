@@ -85,4 +85,21 @@ class TimeEntriesController extends Controller
         return response()->json($lastTimeEntry);
     }
     // get total time by period
+    public function getTotalTime(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        $user = $request->user();
+        $totalTime = $user->timeEntries()
+            ->whereBetween('start_time', [$request->start_date, $request->end_date])
+            ->get()
+            ->sum(function ($te) {
+                return $te->seconds_elapsed;
+            });
+
+        return response()->json(['total_time' => $totalTime]);
+    }
 }
