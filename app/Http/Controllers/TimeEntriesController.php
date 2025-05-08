@@ -20,8 +20,7 @@ class TimeEntriesController extends Controller
             return response()->json(['error' => 'You must provide either a task_id or a category_id.'], 422);
         }
 
-        $user = $request->user();
-        $activeEntry = $user->timeEntries()->whereNull('end_time')->first();
+        $activeEntry = $request->user()->timeEntries()->whereNull('end_time')->first();
         if ($activeEntry) {
             $activeEntry->end_time = $request->start_time;
             $activeEntry->save();
@@ -53,8 +52,7 @@ class TimeEntriesController extends Controller
             'end_time' => 'required|date',
         ]);
 
-        $user = $request->user();
-        $activeEntry = $user->timeEntries()->whereNull('end_time')->first();
+        $activeEntry = $request->user()->timeEntries()->whereNull('end_time')->first();
 
         if (!$activeEntry) {
             return response()->json(['error' => 'No active time entry found.'], 404);
@@ -69,18 +67,34 @@ class TimeEntriesController extends Controller
     }
     // edit time entry
     // delete time entry
+    public function deleteTimeEntry(Request $request)
+    {
+        $request->validate([
+            'time_entry_id' => 'required|exists:time_entries,id',
+        ]);
+
+        $timeEntry = $request->user()->timeEntries()->find($request->time_entry_id);
+
+        if (!$timeEntry) {
+            return response()->json(['error' => 'Time entry not found.'], 404);
+        }
+
+        $timeEntry->delete();
+
+        return response()->json([
+            'message' => 'Time entry deleted successfully',
+        ], 200);
+    }
     // get time entries (paginated or something similar)
     public function getTimeEntries(Request $request)
     {
-        $user = $request->user();
-        $timeEntries = $user->timeEntries()->with('registrable')->orderBy('created_at', 'desc')->limit(50)->get();
+        $timeEntries = $request->user()->timeEntries()->with('registrable')->orderBy('created_at', 'desc')->limit(50)->get();
 
         return response()->json($timeEntries);
     }
     public function getLastTimeEntry(Request $request)
     {
-        $user = $request->user();
-        $lastTimeEntry = $user->timeEntries()->orderBy('created_at', 'desc')->first();
+        $lastTimeEntry = $request->user()->timeEntries()->orderBy('created_at', 'desc')->first();
 
         return response()->json($lastTimeEntry);
     }
@@ -92,8 +106,7 @@ class TimeEntriesController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
         ]);
 
-        $user = $request->user();
-        $totalTime = $user->timeEntries()
+        $totalTime = $request->user()->timeEntries()
             ->whereBetween('start_time', [$request->start_date, $request->end_date])
             ->get()
             ->sum(function ($te) {
