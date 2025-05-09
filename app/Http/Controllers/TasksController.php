@@ -8,7 +8,6 @@ use App\Enums\TaskStatus;
 
 class TasksController extends Controller
 {
-    // add task
     public function addTask(Request $request)
     {
         $request->validate([
@@ -35,7 +34,37 @@ class TasksController extends Controller
             'message' => 'Task created successfully',
         ], 201);
     }
-    // edit task
+    public function updateTask(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:tasks,id',
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'category_id' => 'required|exists:categories,id',
+            'parent_task_id' => 'nullable|exists:tasks,id',
+            'start_date' => 'nullable|date',
+            'due_date' => 'nullable|date',
+        ]);
+
+        $task = Task::find($request->id);
+        if ($task) {
+            $task->name = $request->name;
+            $task->description = $request->description;
+            $task->category_id = $request->category_id;
+            $task->parent_task_id = $request->parent_task_id;
+            $task->start_date = $request->start_date;
+            $task->due_date = $request->due_date;
+            $task->save();
+            
+            return response()->json([
+                'message' => 'Task updated successfully',
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Task not found',
+        ], 404);
+    }
     public function deleteTask(Request $request)
     {
         $request->validate([

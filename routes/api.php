@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/productivity-categories', [CategoriesController::class, 'getProductivityCategories']);
 
     Route::post('/add-task', [TasksController::class, 'addTask']);
+    Route::post('/update-task', [TasksController::class, 'updateTask']);
     Route::post('/delete-task', [TasksController::class, 'deleteTask']);
     Route::get('/all-tasks', [TasksController::class, 'getAllTasks']);
     Route::post('/tasks', [TasksController::class, 'getTasksByStatus']);
@@ -33,5 +34,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/time-entries', [TimeEntriesController::class, 'getTimeEntries']);
     Route::get('/last-time-entry', [TimeEntriesController::class, 'getLastTimeEntry']);
     Route::post('/total-time', [TimeEntriesController::class, 'getTotalTime']);
-    Route::post('/delete-time-entry', [TimeEntriesController::class, 'deleteTimeEntry']);
+    Route::post('/delete-time-entry', [TimeEntriesController::class, 'deleteTimeEntry']);+
+
+    Route::post('/update-profile', [AuthController::class, 'updateProfile']);
+    Route::post('/delete-account', [AuthController::class, 'deleteAccount']);
 });
