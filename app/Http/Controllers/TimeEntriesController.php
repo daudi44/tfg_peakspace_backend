@@ -85,7 +85,7 @@ class TimeEntriesController extends Controller
             'message' => 'Time entry deleted successfully',
         ], 200);
     }
-    // get time entries (paginated or something similar)
+    // get time entries (paginated or    something similar)
     public function getTimeEntries(Request $request)
     {
         $timeEntries = $request->user()->timeEntries()->with('registrable')->orderBy('created_at', 'desc')->limit(50)->get();
