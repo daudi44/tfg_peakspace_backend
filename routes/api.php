@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\TimeEntriesController;
+use App\Http\Controllers\UserController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -34,8 +35,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/time-entries', [TimeEntriesController::class, 'getTimeEntries']);
     Route::get('/last-time-entry', [TimeEntriesController::class, 'getLastTimeEntry']);
     Route::post('/total-time', [TimeEntriesController::class, 'getTotalTime']);
-    Route::post('/delete-time-entry', [TimeEntriesController::class, 'deleteTimeEntry']);+
+    Route::post('/delete-time-entry', [TimeEntriesController::class, 'deleteTimeEntry']);
 
-    Route::post('/update-profile', [AuthController::class, 'updateProfile']);
-    Route::post('/delete-account', [AuthController::class, 'deleteAccount']);
+    Route::post('/update-user', [UserController::class, 'updateProfile']);
+    Route::post('/delete-account', [UserController::class, 'deleteAccount']);
 });
