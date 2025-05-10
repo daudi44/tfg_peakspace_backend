@@ -75,6 +75,6 @@ class User extends Authenticatable
 
     public function getBalanceAttribute($value)
     {
-        return number_format($value, 2, '.', '');
+        return $value != null ? number_format($value, 2, '.', '') : null;
     }
 }
