@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\TimeEntriesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MovementsController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -39,4 +40,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/update-user', [UserController::class, 'updateProfile']);
     Route::post('/delete-account', [UserController::class, 'deleteAccount']);
+
+    Route::post('/add-movement', [MovementsController::class, 'addMovement']);
+    Route::post('/edit-movement', [MovementsController::class, 'editMovement']);
+    Route::post('/delete-movement', [MovementsController::class, 'deleteMovement']);
+    Route::post('/movements', [MovementsController::class, 'getMovementsByType']);
+    Route::post('/last-month-movements', [MovementsController::class, 'getLast30DaysMovements']);
 });

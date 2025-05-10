@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('movements', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->bigInteger('type');
             $table->decimal('amount', 10, 2);
             $table->unsignedBigInteger('user_id');
