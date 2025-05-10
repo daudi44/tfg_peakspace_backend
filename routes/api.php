@@ -40,6 +40,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/update-user', [UserController::class, 'updateProfile']);
     Route::post('/delete-account', [UserController::class, 'deleteAccount']);
+    Route::post('/set-balance', [UserController::class, 'setBalance']);
+    Route::get('/get-balance', [UserController::class, 'getBalance']);
 
     Route::post('/add-movement', [MovementsController::class, 'addMovement']);
     Route::post('/edit-movement', [MovementsController::class, 'editMovement']);

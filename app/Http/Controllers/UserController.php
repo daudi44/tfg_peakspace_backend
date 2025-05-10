@@ -29,7 +29,23 @@ class UserController extends Controller
     }
     // me
     // set balance
+    public function setBalance(Request $request)
+    {
+        $request->validate([
+            'balance' => 'required|numeric',
+        ]);
+
+        $user = $request->user();
+        $user->balance = $request->balance;
+        $user->save();
+
+        return response()->json(['message' => 'Balance updated successfully'], 200);
+    }
     // get balance
+    public function getBalance(Request $request)
+    {
+        return response()->json(['balance' => $request->user()->balance], 200);
+    }
     // delete account
     public function deleteAccount(Request $request)
     {

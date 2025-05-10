@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Movement;
 
 class MovementsController extends Controller
 {
@@ -11,7 +12,7 @@ class MovementsController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'type' => 'required|string',
+            'type' => 'required|integer|in:1,0', 
             'amount' => 'required|numeric',
             'category_id' => 'required|integer|exists:categories,id',
         ]);
@@ -104,6 +105,7 @@ class MovementsController extends Controller
 
         $movements = Movement::where('user_id', $request->user()->id)
             ->where('type', $request->input('type'))
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return response()->json($movements, 200);
