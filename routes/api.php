@@ -8,6 +8,7 @@ use App\Http\Controllers\TasksController;
 use App\Http\Controllers\TimeEntriesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\MovementsController;
+use App\Http\Controllers\SubscriptionsController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -48,4 +49,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/delete-movement', [MovementsController::class, 'deleteMovement']);
     Route::post('/movements', [MovementsController::class, 'getMovementsByType']);
     Route::post('/last-month-movements', [MovementsController::class, 'getLast30DaysMovements']);
+
+    Route::post('/add-subscription', [SubscriptionsController::class, 'addSubscription']);
+    Route::post('/edit-subscription', [SubscriptionsController::class, 'editSubscription']);
+    Route::post('/delete-subscription', [SubscriptionsController::class, 'deleteSubscription']);
+    Route::get('/subscriptions', [SubscriptionsController::class, 'getSubscriptions']);
 });

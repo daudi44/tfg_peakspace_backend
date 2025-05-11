@@ -11,6 +11,7 @@ class Movement extends Model
         'name',
         'amount',
         'category_id',
+        'user_id',
     ];
 
     public function user()
